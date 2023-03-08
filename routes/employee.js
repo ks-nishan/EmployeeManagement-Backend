@@ -4,9 +4,27 @@ const Employees = require("../models/employee.js");
 
 const router = express.Router();
 
+const Joi = require("joi");
+
+//validation schema
+const schema = Joi.object({
+  full_name: Joi.string().trim().required(),
+  initial_name: Joi.string().trim().required(),
+  email: Joi.string()
+    .trim()
+    .email({ tlds: { allow: false } }),
+  mobile: Joi.string()
+    .trim()
+    .pattern(/^[0-9]+$/),
+});
+
 //Add new Employee'
 router.post("/employee/add", async (req, res) => {
   try {
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
     const newEmployee = await Employees.create(req.body);
     res.status(200).json({ success: "Employee saved successfully!!!" });
   } catch (err) {
