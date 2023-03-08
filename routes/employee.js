@@ -15,16 +15,8 @@ router.post("/employee/add", async (req, res) => {
   }
 });
 
+//get all employees
 router.get("/employees", async (req, res) => {
-  //   Employees.find().exec((err, employees) => {
-  //     if (err) {
-  //       return res.status(400).json({ error: err });
-  //     }
-  //     return res.status(200).json({
-  //       success: true,
-  //       existingEmployees: employees,
-  //     });
-  //   });
   try {
     const employees = await Employees.find();
     res.status(200).json({ success: "True", existingEmployees: employees });
@@ -49,21 +41,6 @@ router.get("/employee/:id", async (req, res) => {
 });
 
 //update method
-// router.put("/employee/update/:id", async (req, res) => {
-//     Employees.findByIdAndUpdate(
-//       req.params.id,
-//       {
-//         $set: req.body,
-//       },
-//       (err, employee) => {
-//         if (err) {
-//           return res.status(400).json({ error: err });
-//         }
-//         return res.status(200).json({ success: "updated successfully" });
-//       }
-//     );
-
-// });
 router.put("/employee/update/:id", async (req, res) => {
   try {
     const updatedEmployee = await Employees.findByIdAndUpdate(
@@ -81,22 +58,8 @@ router.put("/employee/update/:id", async (req, res) => {
   }
 });
 
+//delete employee
 router.delete("/employee/delete/:id", async (req, res) => {
-  //   Employees.findByIdAndRemove(
-  //     req.params.id,
-  //     exec((err, deletedEmployee) => {
-  //       if (err) {
-  //         return res.status(400).json({
-  //           message: "Delete Unsuccessfull",
-  //         });
-  //       }
-  //       return res.status(200).json({
-  //         message: "Delete Successfull",
-  //         deletedEmployee,
-  //       });
-  //     })
-  //   );
-
   try {
     const deletedEmployee = await Employees.findByIdAndRemove(req.params.id);
     if (!deletedEmployee) {
